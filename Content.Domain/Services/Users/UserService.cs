@@ -25,7 +25,7 @@
 
         public async Task<User> CreateUserAsync(string login, City city, CancellationToken cancellationToken = default)
         {
-            await CheckIsLoginWithSameNameExistAsync(login, cancellationToken);
+            await CheckIsUserWithSameLoginExistAsync(login, cancellationToken);
 
             var user = new User(login, city);
 
@@ -35,7 +35,7 @@
         }
 
 
-        private async Task CheckIsLoginWithSameNameExistAsync(string login, CancellationToken cancellationToken = default)
+        private async Task CheckIsUserWithSameLoginExistAsync(string login, CancellationToken cancellationToken = default)
         {
             int existingCount = await _queryBuilder
                 .For<int>()

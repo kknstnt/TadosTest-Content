@@ -3,7 +3,6 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using Content.Domain.ValueObjects;
     using Entities;
     using global::Commands.Abstractions;
     using Queries.Abstractions;

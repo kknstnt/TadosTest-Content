@@ -1,7 +1,11 @@
 ﻿namespace Content.WebApi.Controllers.Country.Actions.Create
 {
-    public record CountryCreateRequest
+    using System.ComponentModel.DataAnnotations;
+    using Api.Requests.Abstractions;
+
+    public record CountryCreateRequest : IRequest<CountryCreateResponse>
     {
-        public string Name { get; set; }
+        [Required]
+        public string Name { get; init; }
     }
 }

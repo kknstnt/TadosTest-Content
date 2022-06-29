@@ -1,4 +1,4 @@
-﻿namespace Pets.Swagger
+﻿namespace Content.Swagger
 {
     using System;
     using Microsoft.AspNetCore.Builder;

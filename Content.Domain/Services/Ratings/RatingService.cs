@@ -40,7 +40,7 @@
                 .WithAsync(new FindRatingsCountByUserAndContent(user, content), cancellationToken);
 
             if (existingCount != 0)
-                throw new NameAlreadyExistsException();
+                throw new UserAlreadyRatesThisContentException();
         }
     }
 }

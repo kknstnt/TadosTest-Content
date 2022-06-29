@@ -21,7 +21,7 @@
             Name = name;
         }
 
-        public virtual long Id { get; set; }
+        public virtual long Id { get; init; }
 
         public virtual string Name { get; init; }
     }

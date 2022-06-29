@@ -18,8 +18,7 @@
     {
         protected override void Load(ContainerBuilder builder)
         {
-            string connectionString = Configuration.GetConnectionString("Pets");
-
+            string connectionString = Configuration.GetConnectionString("Content");
 
             builder
                 .RegisterGeneric(typeof(NHibernateAsyncRepository<>))

@@ -7,8 +7,6 @@
     {
         private const string DefaultMessage = "Name already exists";
 
-
-
         public NameAlreadyExistsException()
             : base(DefaultMessage)
         {

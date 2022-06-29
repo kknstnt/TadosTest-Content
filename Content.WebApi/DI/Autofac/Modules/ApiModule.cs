@@ -28,7 +28,6 @@
                 .As<IAsyncRequestBuilder>()
                 .InstancePerLifetimeScope();
 
-
             builder
                 .RegisterAssemblyTypes(typeof(ApplicationAssemblyMarker).Assembly)
                 .AsClosedTypesOf(typeof(IAsyncHierarchicRequestHandler<>))

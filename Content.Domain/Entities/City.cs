@@ -13,7 +13,7 @@
         {
         }
 
-        internal City(string name, Country country)
+        protected internal City(string name, Country country)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
@@ -25,7 +25,7 @@
             Country = country;
         }
 
-        public virtual long Id { get; set; }
+        public virtual long Id { get; init; }
 
         public virtual string Name { get; init; }
 

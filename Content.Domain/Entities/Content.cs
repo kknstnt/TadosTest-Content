@@ -3,8 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using Common.DataAnnotations;
     using global::Domain.Abstractions;
     using Enums;
     using ValueObjects;
@@ -34,7 +32,7 @@
             DateTimeUtc = dateTimeUtc;
         }
 
-        public virtual long Id { get; set; }
+        public virtual long Id { get; init; }
 
         public virtual string Name { get; init; }
 

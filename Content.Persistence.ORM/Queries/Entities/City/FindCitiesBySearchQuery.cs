@@ -10,23 +10,24 @@
     using Linq.Providers.Abstractions;
 
 
-    public class FindCountriesBySearchQuery :
-        LinqAsyncQueryBase<Country, FindBySearch, List<Country>>
+    public class FindCitiesBySearchQuery :
+        LinqAsyncQueryBase<City, FindBySearch, List<City>>
     {
-        public FindCountriesBySearchQuery(
+        public FindCitiesBySearchQuery(
             ILinqProvider linqProvider,
             IAsyncQueryableFactory asyncQueryableFactory) : base(linqProvider, asyncQueryableFactory)
         {
         }
 
-        public override Task<List<Country>> AskAsync(
+        public override Task<List<City>> AskAsync(
             FindBySearch criterion,
             CancellationToken cancellationToken = default)
         {
-            IQueryable<Country> query = Query;
+            IQueryable<City> query = Query;
 
             if (!string.IsNullOrWhiteSpace(criterion.Search))
                 query = query.Where(x => x.Name.Contains(criterion.Search));
+
 
             query = query.OrderBy(x => x.Name);
 

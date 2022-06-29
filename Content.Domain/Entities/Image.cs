@@ -1,4 +1,4 @@
-﻿namespace Content.Domain.ValueObjects
+﻿namespace Content.Domain.Entities
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -13,16 +13,16 @@
         {
         }
 
-        protected internal Image(string uri)
+        protected internal Image(string url)
         {
-            if (string.IsNullOrWhiteSpace(uri))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(uri));
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(url));
 
-            URI = uri;
+            Url = url;
         }
 
-        public virtual long Id { get; set; }
+        public virtual long Id { get; init; }
 
-        public virtual string URI { get; init; }
+        public virtual string Url { get; init; }
     }
 }
