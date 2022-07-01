@@ -22,5 +22,10 @@
 
             return article;
         }
+
+        public void UpdateArticle(Article article, string name, string text)
+        {
+            article.Update(name, text);
+        }
     }
 }

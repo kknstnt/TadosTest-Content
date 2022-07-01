@@ -15,14 +15,19 @@
 
         protected internal Country(string name)
         {
+            Update(name);
+        }
+
+        public virtual long Id { get; protected set; }
+
+        public virtual string Name { get; protected set; }
+
+        public virtual void Update(string name)
+        {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
 
             Name = name;
         }
-
-        public virtual long Id { get; init; }
-
-        public virtual string Name { get; init; }
     }
 }

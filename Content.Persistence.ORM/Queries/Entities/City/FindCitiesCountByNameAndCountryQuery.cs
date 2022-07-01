@@ -1,4 +1,4 @@
-﻿namespace Content.Persistence.ORM.Queries.Entities.Country
+﻿namespace Content.Persistence.ORM.Queries.Entities.City
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -6,7 +6,6 @@
     using Domain.Entities;
     using Linq.AsyncQueryable.Abstractions.Factories;
     using Linq.Providers.Abstractions;
-
 
     public class FindCitiesCountByNameAndCountryQuery :
         LinqAsyncQueryBase<City, FindCitiesCountByNameAndCountry, int>

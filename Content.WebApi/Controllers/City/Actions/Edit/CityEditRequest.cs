@@ -1,6 +1,8 @@
 ﻿namespace Content.WebApi.Controllers.City.Actions.Edit
 {
-    public record CityEditRequest
+    using Api.Requests.Abstractions;
+
+    public record CityEditRequest : IRequest
     {
         public long Id { get; set; }
 

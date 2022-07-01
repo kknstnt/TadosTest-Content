@@ -20,12 +20,11 @@
         }
 
         protected async Task CreateContentAsync<TContent>(
-            TContent animal,
+            TContent content,
             CancellationToken cancellationToken = default)
             where TContent : Content, new()
         {
-            await _asyncCommandBuilder.CreateAsync(animal, cancellationToken);
+            await _asyncCommandBuilder.CreateAsync(content, cancellationToken);
         }
-
     }
 }

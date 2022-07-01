@@ -9,5 +9,7 @@
     public interface ICountryService : IDomainService
     {
         Task<Country> CreateCountryAsync(string name, CancellationToken cancellationToken = default);
+
+        Task UpdateCountryAsync(Country country, string name, CancellationToken cancellationToken = default);
     }
 }

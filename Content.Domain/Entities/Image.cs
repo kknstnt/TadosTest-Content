@@ -13,7 +13,7 @@
         {
         }
 
-        protected internal Image(string url)
+        public Image(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(url));

@@ -41,7 +41,8 @@
         [Route("edit")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public Task<IActionResult> Edit(CountryEditRequest request) => throw new NotImplementedException();
+        public Task<IActionResult> Edit(CountryEditRequest request)
+            => this.RequestAsync(request);
 
         [HttpPost]
         [Route("get")]

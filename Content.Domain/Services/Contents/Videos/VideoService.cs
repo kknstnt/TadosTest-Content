@@ -22,5 +22,10 @@
 
             return video;
         }
+
+        public void UpdateVideo(Video video, string name, string url)
+        {
+            video.Update(name, url);
+        }
     }
 }

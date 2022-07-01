@@ -7,7 +7,6 @@
     using Linq.AsyncQueryable.Abstractions.Factories;
     using Linq.Providers.Abstractions;
 
-
     public class FindCountriesCountByNameQuery :
         LinqAsyncQueryBase<Country, FindCountriesCountByName, int>
     {

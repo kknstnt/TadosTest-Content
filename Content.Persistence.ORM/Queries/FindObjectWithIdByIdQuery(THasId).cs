@@ -7,7 +7,6 @@
     using Linq.AsyncQueryable.Abstractions.Factories;
     using Linq.Providers.Abstractions;
 
-
     public class FindObjectWithIdByIdQuery<THasId> : LinqAsyncQueryBase<THasId, FindById, THasId>
         where THasId : class, IHasId, new()
     {

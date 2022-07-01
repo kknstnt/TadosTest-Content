@@ -3,7 +3,6 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-
     public interface IAsyncCommandBuilder
     {
         Task ExecuteAsync<TCommandContext>(

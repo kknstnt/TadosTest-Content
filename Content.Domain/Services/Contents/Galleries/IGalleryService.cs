@@ -3,7 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using ValueObjects;
+    using System.Collections.Generic;
     using Entities;
     using global::Domain.Abstractions;
 
@@ -14,6 +14,13 @@
             User user,
             DateTime dateTimeUtc,
             Image cover,
+            IEnumerable<Image> images,
             CancellationToken cancellationToken = default);
+
+        void UpdateGallery(
+            Gallery gallery,
+            string name,
+            Image cover,
+            IEnumerable<Image> imagesUrls);
     }
 }

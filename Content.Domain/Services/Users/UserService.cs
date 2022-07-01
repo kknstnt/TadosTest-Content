@@ -22,24 +22,29 @@
             _commandBuilder = commandBuilder ?? throw new ArgumentNullException(nameof(commandBuilder));
         }
 
-
-        public async Task<User> CreateUserAsync(string login, City city, CancellationToken cancellationToken = default)
+        public async Task UpdateUserAsync(User user, string email, City city, CancellationToken cancellationToken = default)
         {
-            await CheckIsUserWithSameLoginExistAsync(login, cancellationToken);
+            await CheckIsUserWithSameLoginExistAsync(email, cancellationToken);
 
-            var user = new User(login, city);
+            user.Update(email, city);
+        }
+
+        public async Task<User> CreateUserAsync(string email, City city, CancellationToken cancellationToken = default)
+        {
+            await CheckIsUserWithSameLoginExistAsync(email, cancellationToken);
+
+            var user = new User(email, city);
 
             await _commandBuilder.CreateAsync(user, cancellationToken);
 
             return user;
         }
 
-
         private async Task CheckIsUserWithSameLoginExistAsync(string login, CancellationToken cancellationToken = default)
         {
             int existingCount = await _queryBuilder
                 .For<int>()
-                .WithAsync(new FindUsersCountByLogin(login), cancellationToken);
+                .WithAsync(new FindUsersCountByEmail(login), cancellationToken);
 
             if (existingCount != 0)
                 throw new NameAlreadyExistsException();

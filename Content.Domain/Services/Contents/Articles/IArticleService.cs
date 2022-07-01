@@ -14,5 +14,10 @@
             DateTime dateTimeUtc,
             string text,
             CancellationToken cancellationToken = default);
+
+       void UpdateArticle(
+            Article article,
+            string name,
+            string text);
     }
 }

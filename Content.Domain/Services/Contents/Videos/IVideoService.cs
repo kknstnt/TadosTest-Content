@@ -12,7 +12,12 @@
             string name,
             User user,
             DateTime dateTimeUtc,
-            string uri,
+            string url,
             CancellationToken cancellationToken = default);
+
+        void UpdateVideo(
+            Video video,
+            string name,
+            string url);
     }
 }

@@ -10,7 +10,7 @@
     using global::Commands.Abstractions;
     using Queries.Abstractions;
 
-    public class CityService : ICityService
+    public class CityService : IRatingService
     {
         private readonly IAsyncQueryBuilder _queryBuilder;
         private readonly IAsyncCommandBuilder _commandBuilder;
@@ -21,6 +21,12 @@
             _commandBuilder = commandBuilder ?? throw new ArgumentNullException(nameof(commandBuilder));
         }
 
+        public async Task UpdateCityAsync(City city, string name, Country country, CancellationToken cancellationToken = default)
+        {
+            await CheckIsCityWithSameNameExistAsync(name, country, cancellationToken);
+
+            city.Update(name, country);
+        }
 
         public async Task<City> CreateCityAsync(string name, Country country, CancellationToken cancellationToken = default)
         {

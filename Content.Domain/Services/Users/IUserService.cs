@@ -7,6 +7,8 @@
 
     public interface IUserService : IDomainService
     {
-        Task<User> CreateUserAsync(string login, City city, CancellationToken cancellationToken = default);
+        Task<User> CreateUserAsync(string email, City city, CancellationToken cancellationToken = default);
+
+        Task UpdateUserAsync(User user, string email, City city, CancellationToken cancellationToken = default);
     }
 }

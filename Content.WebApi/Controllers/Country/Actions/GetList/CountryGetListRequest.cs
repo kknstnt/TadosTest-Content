@@ -1,6 +1,6 @@
 ﻿namespace Content.WebApi.Controllers.Country.Actions.GetList
 {
-    using Infrastructure.Pagination;
+    using Domain.Filters;
     using Api.Requests.Abstractions;
 
     public record CountryGetListRequest :IRequest<CountryGetListResponse>

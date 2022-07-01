@@ -1,17 +1,18 @@
 ﻿namespace Content.WebApi.Controllers.Content.Dto
 {
     using User.Dto;
+    using Domain.Enums;
 
     public abstract class ContentDto
     {
-        public long Id { get; set; }
+        public long Id { get; init; }
 
-        public ContentCategory Category { get; set; }
+        public ContentCategory Category { get; init; }
 
-        public UserDto Creator { get; set; }
+        public UserDto Creator { get; init; }
 
-        public string Name { get; set; }
+        public string Name { get; init; }
         
-        public decimal AverageRating { get; set; }
+        public decimal AverageRating { get; init; }
     }
 }

@@ -6,8 +6,10 @@
     using Enums;
     using global::Domain.Abstractions;
 
-    public interface ICityService : IDomainService
+    public interface IRatingService : IDomainService
     {
         Task<City> CreateCityAsync(string name, Country country, CancellationToken cancellationToken = default);
+
+        Task UpdateCityAsync(City city, string name, Country country, CancellationToken cancellationToken = default);
     }
 }

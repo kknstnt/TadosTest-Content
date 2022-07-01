@@ -21,6 +21,13 @@
             _commandBuilder = commandBuilder ?? throw new ArgumentNullException(nameof(commandBuilder));
         }
 
+        public async Task UpdateCountryAsync(Country country, string name, CancellationToken cancellationToken = default)
+        {
+            await CheckIsCountryWithSameNameExistAsync(name, cancellationToken);
+
+            country.Update(name);
+        }
+
         public async Task<Country> CreateCountryAsync(string name, CancellationToken cancellationToken = default)
         {
             await CheckIsCountryWithSameNameExistAsync(name, cancellationToken);

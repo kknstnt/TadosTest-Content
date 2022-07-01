@@ -13,14 +13,24 @@
         {
         }
 
-        protected internal Video(string name, User user, DateTime dateTimeUtc, string url)
-            : base(ContentType.Video, name, user, dateTimeUtc)
+        public Video(string name, User user, DateTime dateTimeUtc, string url)
+            : base(ContentCategory.Video, name, user, dateTimeUtc)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(url));
 
             Url = url;
         }
-        public virtual string Url { get; init; }
+
+        public virtual string Url { get; protected set; }
+
+        public virtual void Update(string name, string url)
+        {
+            SetName(name);
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentOutOfRangeException(nameof(url));
+
+            Url = url;
+        }
     }
 }

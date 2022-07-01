@@ -13,8 +13,8 @@
         {
         }
 
-        protected internal Article(string name, User user, DateTime dateTimeUtc, string text)
-            : base(ContentType.Article, name, user, dateTimeUtc)
+        public Article(string name, User user, DateTime dateTimeUtc, string text)
+            : base(ContentCategory.Article, name, user, dateTimeUtc)
         {
             if (string.IsNullOrWhiteSpace(text))
                 throw new ArgumentOutOfRangeException(nameof(text));
@@ -22,6 +22,15 @@
             Text = text;
         }
 
-        public virtual string Text { get; init; }
+        public virtual string Text { get; protected set; }
+
+        public virtual void Update(string name, string text)
+        {
+            SetName(name);
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentOutOfRangeException(nameof(text));
+
+            Text = text;
+        }
     }
 }

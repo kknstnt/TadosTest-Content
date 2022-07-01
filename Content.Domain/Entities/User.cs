@@ -13,22 +13,27 @@
         {
         }
 
-        protected internal User(string login, City city)
+        protected internal User(string email, City city)
         {
-            if (string.IsNullOrWhiteSpace(login))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(login));
-
-            if (city == null)
-                throw new ArgumentNullException(nameof(city));
-
-            Login = login;
-            City = city;
+            Update(email, city);
         }
 
         public virtual long Id { get; init; }
 
-        public virtual string Login { get; init; }
+        public virtual string Email { get; protected set; }
 
-        public virtual City City { get; init; }
+        public virtual City City { get; protected set; }
+
+        public virtual void Update(string email, City city)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(email));
+
+            if (city == null)
+                throw new ArgumentNullException(nameof(city));
+
+            Email = email;
+            City = city;
+        }
     }
 }
