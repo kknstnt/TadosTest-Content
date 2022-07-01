@@ -11,7 +11,8 @@
         public void Apply(IOneToManyCollectionInstance instance)
         {
             instance.Access.ReadOnlyPropertyThroughCamelCaseField(CamelCasePrefix.Underscore);
-            instance.Cascade.AllDeleteOrphan();
+            //instance.Cascade.AllDeleteOrphan();
+            instance.Cascade.All();
             instance.AsSet();
             instance.BatchSize(25);
             instance.Not.KeyNullable();

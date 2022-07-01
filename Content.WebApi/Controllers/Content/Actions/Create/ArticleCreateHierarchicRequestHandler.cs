@@ -3,18 +3,16 @@
     using System;
     using System.Threading.Tasks;
     using Domain.Entities;
-    using Domain.Services.Contents.Articles;
     using Queries.Abstractions;
     using Exceptions;
+    using Commands.Abstractions;
+    using Domain.Commands.Contexts;
 
     public class ArticleCreateHierarchicRequestHandler : ContentCreateHierarchicRequestHandler<ArticleCreateHierarchicRequest>
     {
-        private readonly IArticleService _articleService;
-
-        public ArticleCreateHierarchicRequestHandler(IAsyncQueryBuilder asyncQueryBuilder, IArticleService articleService)
-            : base(asyncQueryBuilder)
+        public ArticleCreateHierarchicRequestHandler(IAsyncQueryBuilder queryBuilder, IAsyncCommandBuilder commandBuilder)
+            : base(queryBuilder, commandBuilder)
         {
-            _articleService = articleService ?? throw new ArgumentNullException(nameof(articleService));
         }
 
         protected override async Task<Content> CreateContentAsync(
@@ -26,11 +24,13 @@
             if (string.IsNullOrEmpty(request.Text))
                 throw new IncorrectRequestParameters();
 
-            Article article = await _articleService.CreateArticleAsync(
+            Article article = new Article(
                 name: name,
                 user: user,
                 dateTimeUtc: DateTime.UtcNow,
                 text: request.Text);
+
+            await _commandBuilder.CreateAsync(article);
 
             return article;
         }

@@ -1,21 +1,20 @@
 ﻿namespace Content.WebApi.Controllers.Content.Actions.Create
 {
     using System;
-    using System.Threading.Tasks;
     using System.Collections.Generic;
     using Domain.Entities;
-    using Domain.Services.Contents.Galleries;
+    using Domain.ValueObjects;
     using Queries.Abstractions;
     using Exceptions;
+    using Commands.Abstractions;
+    using Domain.Commands.Contexts;
+    using System.Threading.Tasks;
 
     public class GalleryCreateHierarchicRequestHandler : ContentCreateHierarchicRequestHandler<GalleryCreateHierarchicRequest>
     {
-        private readonly IGalleryService _galleryService;
-
-        public GalleryCreateHierarchicRequestHandler(IAsyncQueryBuilder asyncQueryBuilder, IGalleryService galleryService)
-            : base(asyncQueryBuilder)
+        public GalleryCreateHierarchicRequestHandler(IAsyncQueryBuilder queryBuilder, IAsyncCommandBuilder commandBuilder)
+            : base(queryBuilder, commandBuilder)
         {
-            _galleryService = galleryService ?? throw new ArgumentNullException(nameof(galleryService));
         }
 
         protected override async Task<Content> CreateContentAsync(
@@ -24,25 +23,25 @@
          DateTime dateTimeUtc,
          GalleryCreateHierarchicRequest request)
         {
-            if (string.IsNullOrEmpty(request.CoverUrl))
+            if (string.IsNullOrEmpty(request.CoverUrl) || request.ImagesUrls == null)
                 throw new IncorrectRequestParameters();
 
             Image cover = new Image(request.CoverUrl);
 
-            var images = new List<Image>();
+            Gallery gallery = new Gallery(
+                name: name,
+                user: user,
+                dateTimeUtc: DateTime.UtcNow,
+                cover: cover);
+
+            await _commandBuilder.CreateAsync(gallery);
+
             foreach (var url in request.ImagesUrls)
             {
                 if (string.IsNullOrEmpty(url))
                     throw new IncorrectRequestParameters();
-                images.Add(new Image(url));
+                gallery.AddImage(url);
             }
-
-            Gallery gallery = await _galleryService.CreateGalleryAsync(
-                name: name,
-                user: user,
-                dateTimeUtc: DateTime.UtcNow,
-                cover: cover,
-                images: images);
 
             return gallery;
         }

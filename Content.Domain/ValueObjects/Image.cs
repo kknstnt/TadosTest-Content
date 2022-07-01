@@ -1,4 +1,4 @@
-﻿namespace Content.Domain.Entities
+﻿namespace Content.Domain.ValueObjects
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -6,7 +6,7 @@
 
     [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
-    public class Image : IEntity
+    public class Image : IValueObjectWithId
     {
         [Obsolete("Only for reflection", true)]
         public Image()

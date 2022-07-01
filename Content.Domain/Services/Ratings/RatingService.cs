@@ -35,11 +35,11 @@
 
         private async Task CheckIsUserAlreadyRateTheContnetAsync(User user, Content content, CancellationToken cancellationToken = default)
         {
-            int existingCount = await _asyncQueryBuilder
-                .For<int>()
+            bool isAlreadeRate = await _asyncQueryBuilder
+                .For<bool>()
                 .WithAsync(new FindRatingsCountByUserAndContent(user, content), cancellationToken);
 
-            if (existingCount != 0)
+            if (isAlreadeRate)
                 throw new UserAlreadyRatesThisContentException();
         }
     }

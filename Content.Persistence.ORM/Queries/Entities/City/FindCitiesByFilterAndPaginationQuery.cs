@@ -31,8 +31,10 @@
             var pagination = criterion.Pagination;
 
             if (!string.IsNullOrWhiteSpace(filter.Search))
-                query = query
-                    .Where(x => x.Name.Contains(filter.Search) && x.Country.Id == filter.CountryId);
+                query = query.Where(x => x.Name.Contains(filter.Search));
+
+            if (filter.CountryId.HasValue)
+                query = query.Where(x => x.Country.Id == filter.CountryId);
 
             if (pagination != null)
             {

@@ -3,18 +3,17 @@
     using System;
     using System.Threading.Tasks;
     using Domain.Entities;
-    using Domain.Services.Contents.Videos;
     using Queries.Abstractions;
     using Exceptions;
+    using Commands.Abstractions;
+    using Domain.Commands.Contexts;
 
     public class VideoCreateHierarchicRequestHandler : ContentCreateHierarchicRequestHandler<VideoCreateHierarchicRequest>
     {
-        private readonly IVideoService _videoService;
 
-        public VideoCreateHierarchicRequestHandler(IAsyncQueryBuilder asyncQueryBuilder, IVideoService videoService)
-            : base(asyncQueryBuilder)
+        public VideoCreateHierarchicRequestHandler(IAsyncQueryBuilder queryBuilder, IAsyncCommandBuilder commandBuilder)
+            : base(queryBuilder, commandBuilder)
         {
-            _videoService = videoService ?? throw new ArgumentNullException(nameof(videoService));
         }
 
         protected override async Task<Content> CreateContentAsync(
@@ -26,11 +25,13 @@
             if (string.IsNullOrEmpty(request.Url))
                 throw new IncorrectRequestParameters();
 
-            Video video = await _videoService.CreateVideoAsync(
+            Video video = new Video(
                 name: name,
                 user: user,
                 dateTimeUtc: DateTime.UtcNow,
                 url: request.Url);
+
+            await _commandBuilder.CreateAsync(video);
 
             return video;
         }

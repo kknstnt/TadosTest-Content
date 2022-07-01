@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using Enums;
+    using Domain.ValueObjects;
 
     [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
@@ -16,21 +17,19 @@
         {
         }
 
-        public Gallery(string name, User user, DateTime dateTimeUtc, Image cover, IEnumerable<Image> images)
+        public Gallery(string name, User user, DateTime dateTimeUtc, Image cover)
             : base(ContentCategory.Gallery, name, user, dateTimeUtc)
         {
             if (cover == null)
                 throw new ArgumentNullException(nameof(cover));
             Cover = cover;
-
-            AddImages(images);
         }
 
         public virtual Image Cover { get; protected set; }
 
         public virtual IEnumerable<Image> Images => _images;
 
-        public virtual void Update(string name, Image cover, IEnumerable<Image> images)
+        public virtual void Update(string name, Image cover, List<string> imagesUrls)
         {
             SetName(name);
 
@@ -39,13 +38,15 @@
             Cover = cover;
 
             _images.Clear();
-            AddImages(images);
+            foreach (var url in imagesUrls)
+                AddImage(url);
         }
 
-        public virtual void AddImages(IEnumerable<Image> images)
+        public virtual void AddImage(string url)
         {
-            foreach (var img in images)
-                _images.Add(img);
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(url));
+            _images.Add(new Image(url));
         }
     }
 }

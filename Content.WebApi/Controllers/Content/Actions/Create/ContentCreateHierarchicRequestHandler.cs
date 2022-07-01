@@ -7,22 +7,25 @@
     using Domain.Entities;
     using Queries.Abstractions;
     using Exceptions;
+    using global::Commands.Abstractions;
 
     public abstract class ContentCreateHierarchicRequestHandler<TConcreteContentHierarchicRequest> : 
         AsyncHierarchicRequestHandlerBase<TConcreteContentHierarchicRequest, 
         ContentCreateHierarchicResponse>
             where TConcreteContentHierarchicRequest : ContentCreateHierarchicRequest
     {
-        private readonly IAsyncQueryBuilder _asyncQueryBuilder;
+        private readonly IAsyncQueryBuilder _queryBuilder;
+        protected readonly IAsyncCommandBuilder _commandBuilder;
 
-        protected ContentCreateHierarchicRequestHandler(IAsyncQueryBuilder asyncQueryBuilder)
+        protected ContentCreateHierarchicRequestHandler(IAsyncQueryBuilder asyncQueryBuilder, IAsyncCommandBuilder commandBuilder)
         {
-            _asyncQueryBuilder = asyncQueryBuilder ?? throw new ArgumentNullException(nameof(asyncQueryBuilder));
+            _queryBuilder = asyncQueryBuilder ?? throw new ArgumentNullException(nameof(asyncQueryBuilder));
+            _commandBuilder = commandBuilder ?? throw new ArgumentNullException(nameof(commandBuilder));
         }
 
         protected override async Task<ContentCreateHierarchicResponse> ExecuteAsync(TConcreteContentHierarchicRequest request)
         {
-            var user = await _asyncQueryBuilder.FindByIdAsync<User>(request.UserId);
+            var user = await _queryBuilder.FindByIdAsync<User>(request.UserId);
             if (user == null)
                 throw new IncorrectRequestParameters();
 
