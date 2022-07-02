@@ -40,7 +40,7 @@
                 query = query.Where(x => x.Name.Contains(filter.Search) 
                 || (x as Article) != null && (x as Article).Text.Contains(filter.Search)
                 || (x as Video) != null && (x as Video).Url.Contains(filter.Search)
-                || (x as Gallery) != null && (x as Gallery).Cover.Url.Contains(filter.Search));
+                || (x as Gallery) != null && (x as Gallery).CoverUrl.Contains(filter.Search));
 
             if (pagination != null)
             {

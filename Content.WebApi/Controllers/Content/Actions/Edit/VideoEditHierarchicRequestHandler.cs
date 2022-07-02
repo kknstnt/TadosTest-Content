@@ -3,20 +3,26 @@
     using Domain.Entities;
     using Queries.Abstractions;
     using Exceptions;
+    using Commands.Abstractions;
+    using Domain.Commands.Contexts;
+    using System.Threading.Tasks;
 
     public class VideoEditHierarchicRequestHandler : ContentEditHierarchicRequestHandler<VideoEditHierarchicRequest>
     {
-        public VideoEditHierarchicRequestHandler(IAsyncQueryBuilder asyncQueryBuilder)
-            : base(asyncQueryBuilder)
+        public VideoEditHierarchicRequestHandler(IAsyncQueryBuilder queryBuilder, IAsyncCommandBuilder commandBuilder)
+            : base(queryBuilder, commandBuilder)
         {
         }
 
-        protected override void UpdateContent(Content content, string name, VideoEditHierarchicRequest request)
+        protected override async Task UpdateContentAsync(Content content, string name, VideoEditHierarchicRequest request)
         {
             if (string.IsNullOrEmpty(request.Url))
                 throw new IncorrectRequestParameters();
 
-            (content as Video).Update(name, request.Url);
+            var video = content as Video;
+            video.Update(name, request.Url);
+
+            await _commandBuilder.UpdateAsync(video);
         }
     }
 }

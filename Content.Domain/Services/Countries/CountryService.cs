@@ -26,6 +26,8 @@
             await CheckIsCountryWithSameNameExistAsync(name, cancellationToken);
 
             country.Update(name);
+
+            await _commandBuilder.UpdateAsync(country, cancellationToken);
         }
 
         public async Task<Country> CreateCountryAsync(string name, CancellationToken cancellationToken = default)

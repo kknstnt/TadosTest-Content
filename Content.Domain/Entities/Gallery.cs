@@ -17,27 +17,28 @@
         {
         }
 
-        public Gallery(string name, User user, DateTime dateTimeUtc, Image cover)
+        public Gallery(string name, User user, DateTime dateTimeUtc, string coverUrl)
             : base(ContentCategory.Gallery, name, user, dateTimeUtc)
         {
-            if (cover == null)
-                throw new ArgumentNullException(nameof(cover));
-            Cover = cover;
+            if (coverUrl == null)
+                throw new ArgumentNullException(nameof(coverUrl));
+            CoverUrl = coverUrl;
         }
 
-        public virtual Image Cover { get; protected set; }
+        public virtual string CoverUrl { get; protected set; }
 
         public virtual IEnumerable<Image> Images => _images;
 
-        public virtual void Update(string name, Image cover, List<string> imagesUrls)
+        public virtual void Update(string name, string cover, List<string> imagesUrls)
         {
             SetName(name);
 
             if (cover == null)
                 throw new ArgumentNullException(nameof(cover));
-            Cover = cover;
+            CoverUrl = cover;
 
-            _images.Clear();
+            foreach (var image in _images)
+                _images.Remove(image);
             foreach (var url in imagesUrls)
                 AddImage(url);
         }

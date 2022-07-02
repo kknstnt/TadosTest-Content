@@ -16,6 +16,11 @@
                 .InstancePerDependency();
 
             builder
+                .RegisterGeneric(typeof(UpdateObjectWithIdCommand<>))
+                .As(typeof(IAsyncCommand<>))
+                .InstancePerDependency();
+
+            builder
                 .RegisterAssemblyTypes(typeof(PersistenceOrmAssemblyMarker).Assembly)
                 .AsClosedTypesOf(typeof(IAsyncCommand<>))
                 .InstancePerDependency();

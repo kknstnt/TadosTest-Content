@@ -26,13 +26,11 @@
             if (string.IsNullOrEmpty(request.CoverUrl) || request.ImagesUrls == null)
                 throw new IncorrectRequestParameters();
 
-            Image cover = new Image(request.CoverUrl);
-
             Gallery gallery = new Gallery(
                 name: name,
                 user: user,
                 dateTimeUtc: DateTime.UtcNow,
-                cover: cover);
+                coverUrl: request.CoverUrl);
 
             await _commandBuilder.CreateAsync(gallery);
 

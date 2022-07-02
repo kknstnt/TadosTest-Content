@@ -22,7 +22,10 @@
 
             CreateMap<Article, ArticleListItemDto>();
             CreateMap<Video, VideoListItemDto>();
-            CreateMap<Gallery, GalleryListItemDto>();
+            CreateMap<Gallery, GalleryListItemDto>()
+                .ForMember(
+                    dest => dest.ImagesUrls,
+                    opts => opts.MapFrom(src => src.Images.Select(i => i.Url)));
 
             CreateMap<Content, ContentDto>()
                 .ForMember(
@@ -43,7 +46,10 @@
 
             CreateMap<Article, ArticleDto>();
             CreateMap<Video, VideoDto>();
-            CreateMap<Gallery, GalleryDto>();
+            CreateMap<Gallery, GalleryDto>()
+                .ForMember(
+                    dest => dest.ImagesUrls,
+                    opts => opts.MapFrom(src => src.Images.Select(i => i.Url)));
         }
     }
 }

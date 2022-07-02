@@ -27,6 +27,8 @@
             await CheckIsUserWithSameLoginExistAsync(email, cancellationToken);
 
             user.Update(email, city);
+
+            await _commandBuilder.UpdateAsync(user, cancellationToken);
         }
 
         public async Task<User> CreateUserAsync(string email, City city, CancellationToken cancellationToken = default)

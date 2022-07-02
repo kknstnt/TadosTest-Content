@@ -7,28 +7,31 @@
     using Domain.Entities;
     using Queries.Abstractions;
     using Exceptions;
+    using Commands.Abstractions;
 
     public abstract class ContentEditHierarchicRequestHandler<TConcreteContentHierarchicRequest> :
         AsyncHierarchicRequestHandlerBase<TConcreteContentHierarchicRequest>
             where TConcreteContentHierarchicRequest : ContentEditHierarchicRequest
     {
-        private readonly IAsyncQueryBuilder _asyncQueryBuilder;
+        private readonly IAsyncQueryBuilder _queryBuilder;
+        protected readonly IAsyncCommandBuilder _commandBuilder;
 
-        protected ContentEditHierarchicRequestHandler(IAsyncQueryBuilder asyncQueryBuilder)
+        protected ContentEditHierarchicRequestHandler(IAsyncQueryBuilder queryBuilder, IAsyncCommandBuilder commandBuilder)
         {
-            _asyncQueryBuilder = asyncQueryBuilder ?? throw new ArgumentNullException(nameof(asyncQueryBuilder));
+            _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
+            _commandBuilder = commandBuilder ?? throw new ArgumentNullException(nameof(commandBuilder)); ;
         }
 
         protected override async Task ExecuteAsync(TConcreteContentHierarchicRequest request)
         {
-            Content content = await _asyncQueryBuilder.FindByIdAsync<Content>(request.Id);
+            Content content = await _queryBuilder.FindByIdAsync<Content>(request.Id);
             if (content == null)
                 throw new IncorrectRequestParameters();
 
-            UpdateContent(content, request.Name, request);
+            await UpdateContentAsync(content, request.Name, request);
         }
 
-        protected abstract void UpdateContent(
+        protected abstract Task UpdateContentAsync(
           Content content,
           string name,
           TConcreteContentHierarchicRequest request);

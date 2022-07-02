@@ -12,7 +12,6 @@
     using Actions.Create;
     using Actions.Edit;
     using Actions.Rate;
-    using System;
 
     [ApiController]
     [Route("api/content")]
