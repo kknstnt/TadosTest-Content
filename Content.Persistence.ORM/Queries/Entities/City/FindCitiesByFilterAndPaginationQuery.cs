@@ -13,7 +13,7 @@
     using Domain.Filters;
 
     public class FindCitiesByFilterAndPaginationQuery :
-        LinqAsyncQueryBase<City, FindByFilterAndPagination, List<City>>
+        LinqAsyncQueryBase<City, FindByFilterAndPagination<CityGetListFilter>, PaginatedList<City>>
     {
         public FindCitiesByFilterAndPaginationQuery(
             ILinqProvider linqProvider,
@@ -21,13 +21,14 @@
         {
         }
 
-        public override Task<List<City>> AskAsync(
-            FindByFilterAndPagination criterion,
+        public override async Task<PaginatedList<City>> AskAsync(
+            FindByFilterAndPagination<CityGetListFilter> criterion,
             CancellationToken cancellationToken = default)
         {
             IQueryable<City> query = Query;
+            var totalCount = query.Count();
 
-            var filter = criterion.Filter as CityGetListFilter;
+            var filter = criterion.Filter;
             var pagination = criterion.Pagination;
 
             if (!string.IsNullOrWhiteSpace(filter.Search))
@@ -46,9 +47,8 @@
                     .Take(pagination.Count);
             }
 
-            //query = query.OrderBy(x => x.Name);
-
-            return ToAsync(query).ToListAsync(cancellationToken);
+            var cities = await ToAsync(query).ToListAsync(cancellationToken);
+            return new PaginatedList<City>(totalCount, cities);
         }
     }
 }

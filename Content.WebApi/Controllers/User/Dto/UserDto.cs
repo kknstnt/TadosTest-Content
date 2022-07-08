@@ -5,10 +5,10 @@
 
     public class UserDto
     {
-        public long Id { get; set; }
+        public long Id { get; init; }
 
-        public string Email { get; set; }
+        public string Email { get; init; }
 
-        public CityDto City { get; set; }
+        public CityDto City { get; init; }
     }
 }

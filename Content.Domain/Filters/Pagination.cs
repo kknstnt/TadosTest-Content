@@ -2,8 +2,8 @@
 {
     public record Pagination
     {
-        public int Offset { get; set; }
+        public int Offset { get; init; }
         
-        public int Count { get; set; }
+        public int Count { get; init; }
     }
 }

@@ -25,16 +25,16 @@
 
         public async Task<CityGetListResponse> ExecuteAsync(CityGetListRequest request)
         {
-            List<City> cities = await _asyncQueryBuilder
-                .For<List<City>>()
-                .WithAsync(new FindByFilterAndPagination(
+            var cities = await _asyncQueryBuilder
+                .For<PaginatedList<City>>()
+                .WithAsync(new FindByFilterAndPagination<CityGetListFilter>(
                     request.Filter,
                     request.Pagination));
 
-            var citiesDto = _mapper.Map<IEnumerable<CityListItemDto>>(cities);
+            var citiesDto = _mapper.Map<IEnumerable<CityListItemDto>>(cities.Items);
 
             return new CityGetListResponse(
-                Page: new PaginatedList<CityListItemDto>(citiesDto.Count(), citiesDto));
+                Page: new PaginatedList<CityListItemDto>(cities.TotalCount, citiesDto));
         }
     }
 }

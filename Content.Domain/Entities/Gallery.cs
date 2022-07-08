@@ -20,22 +20,17 @@
         public Gallery(string name, User user, DateTime dateTimeUtc, string coverUrl)
             : base(ContentCategory.Gallery, name, user, dateTimeUtc)
         {
-            if (coverUrl == null)
-                throw new ArgumentNullException(nameof(coverUrl));
-            CoverUrl = coverUrl;
+            SetCoverUrl(coverUrl);
         }
 
         public virtual string CoverUrl { get; protected set; }
 
         public virtual IEnumerable<Image> Images => _images;
 
-        public virtual void Update(string name, string cover, List<string> imagesUrls)
+        public virtual void Update(string name, string coverUrl, List<string> imagesUrls)
         {
             SetName(name);
-
-            if (cover == null)
-                throw new ArgumentNullException(nameof(cover));
-            CoverUrl = cover;
+            SetCoverUrl(coverUrl);
 
             foreach (var image in _images)
                 _images.Remove(image);
@@ -43,11 +38,19 @@
                 AddImage(url);
         }
 
-        public virtual void AddImage(string url)
+        protected internal virtual void AddImage(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(url));
             _images.Add(new Image(url));
+        }
+
+        protected internal virtual void SetCoverUrl(string coverUrl)
+        {
+            if (string.IsNullOrWhiteSpace(coverUrl))
+                throw new ArgumentNullException(nameof(coverUrl));
+
+            CoverUrl = coverUrl;
         }
     }
 }

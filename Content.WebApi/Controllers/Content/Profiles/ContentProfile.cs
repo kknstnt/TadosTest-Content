@@ -13,9 +13,6 @@
                 .ForMember(
                     dest => dest.AverageRating,
                     opts => opts.MapFrom(src => (src.ContentRatings.Count() > 0)? src.ContentRatings.Select(rtg => rtg.Rate).Average() : 0))
-                .ForMember(
-                    dest => dest.Creator,
-                    opts => opts.MapFrom(src => src.Creator))
                 .Include<Article, ArticleListItemDto>()
                 .Include<Video, VideoListItemDto>()
                 .Include<Gallery, GalleryListItemDto>();
@@ -31,15 +28,6 @@
                 .ForMember(
                     dest => dest.AverageRating,
                     opts => opts.MapFrom(src => (src.ContentRatings.Count() > 0) ? src.ContentRatings.Select(rtg => rtg.Rate).Average() : 0))
-                .ForMember(
-                    dest => dest.Creator,
-                    opts => opts.MapFrom(src => src.Creator))
-                .ForPath(
-                    dest => dest.Creator.City,
-                    opts => opts.MapFrom(src => src.Creator.City))
-                .ForPath(
-                    dest => dest.Creator.City.CountryDto,
-                    opts => opts.MapFrom(src => src.Creator.City.Country))
                 .Include<Article, ArticleDto>()
                 .Include<Video, VideoDto>()
                 .Include<Gallery, GalleryDto>();

@@ -25,8 +25,8 @@
             if (content == null)
                 throw new ArgumentNullException(nameof(content));
 
-            if (rate < 0 || rate > 5)
-                throw new ArgumentNullException(nameof(rate));
+            if (rate < 1 || rate > 5)
+                throw new ArgumentException(nameof(rate));
 
             await CheckIsUserAlreadyRateTheContnetAsync(user, content);
 
@@ -37,7 +37,7 @@
         {
             bool isAlreadeRate = await _asyncQueryBuilder
                 .For<bool>()
-                .WithAsync(new FindRatingsCountByUserAndContent(user, content), cancellationToken);
+                .WithAsync(new CheckIsUserAlreadyRateThisContent(user, content), cancellationToken);
 
             if (isAlreadeRate)
                 throw new UserAlreadyRatesThisContentException();

@@ -25,16 +25,16 @@
 
         public async Task<ContentGetListResponse> ExecuteAsync(ContentGetListRequest request)
         {
-            List<Content> contents = await _asyncQueryBuilder
-                .For<List<Content>>()
-                .WithAsync(new FindByFilterAndPagination(
+            var contents = await _asyncQueryBuilder
+                .For<PaginatedList<Content>>()
+                .WithAsync(new FindByFilterAndPagination<ContentGetListFilter>(
                     request.Filter,
                     request.Pagination));
 
-            var contentsDto = _mapper.Map<IEnumerable<ContentListItemDto>>(contents);
+            var contentsDto = _mapper.Map<IEnumerable<ContentListItemDto>>(contents.Items);
 
             return new ContentGetListResponse(
-                Page: new PaginatedList<ContentListItemDto>(contentsDto.Count(), contentsDto));
+                Page: new PaginatedList<ContentListItemDto>(contents.TotalCount, contentsDto));
         }
     }
 }

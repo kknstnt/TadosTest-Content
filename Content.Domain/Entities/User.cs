@@ -15,7 +15,8 @@
 
         protected internal User(string email, City city)
         {
-            Update(email, city);
+            SetEmail(email);
+            SetCity(city);
         }
 
         public virtual long Id { get; init; }
@@ -26,13 +27,23 @@
 
         public virtual void Update(string email, City city)
         {
+            SetEmail(email);
+            SetCity(city);
+        }
+
+        protected internal virtual void SetEmail(string email)
+        {
             if (string.IsNullOrWhiteSpace(email))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(email));
 
+            Email = email;
+        }
+
+        protected internal virtual void SetCity(City city)
+        {
             if (city == null)
                 throw new ArgumentNullException(nameof(city));
 
-            Email = email;
             City = city;
         }
     }

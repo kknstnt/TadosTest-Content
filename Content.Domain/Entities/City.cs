@@ -15,7 +15,8 @@
 
         protected internal City(string name, Country country)
         {
-            Update(name, country);
+            SetName(name);
+            SetCountry(country);
         }
 
         public virtual long Id { get; init; }
@@ -26,13 +27,23 @@
 
         public virtual void Update(string name, Country country)
         {
+            SetName(name);
+            SetCountry(country);
+        }
+
+        protected internal virtual void SetName(string name)
+        {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
 
+            Name = name;
+        }
+
+        protected internal virtual void SetCountry(Country country)
+        {
             if (country == null)
                 throw new ArgumentNullException(nameof(country));
 
-            Name = name;
             Country = country;
         }
     }

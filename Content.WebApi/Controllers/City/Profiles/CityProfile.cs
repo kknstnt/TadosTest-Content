@@ -8,11 +8,7 @@
     {
         public CityProfile()
         {
-            CreateMap<City, CityDto>()
-                .ForMember(
-                    dest => dest.CountryDto,
-                    opts => opts.MapFrom(src => src.Country));
-
+            CreateMap<City, CityDto>();
             CreateMap<City, CityListItemDto>();
         }
     }

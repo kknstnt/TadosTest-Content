@@ -13,7 +13,7 @@
     using Domain.Filters;
 
     public class FindCountriesByFilterAndPaginationQuery :
-        LinqAsyncQueryBase<Country, FindByFilterAndPagination, List<Country>>
+        LinqAsyncQueryBase<Country, FindByFilterAndPagination<CountryGetListFilter>, PaginatedList<Country>>
     {
         public FindCountriesByFilterAndPaginationQuery(
             ILinqProvider linqProvider,
@@ -21,13 +21,14 @@
         {
         }
 
-        public override Task<List<Country>> AskAsync(
-            FindByFilterAndPagination criterion,
+        public override async Task<PaginatedList<Country>> AskAsync(
+            FindByFilterAndPagination<CountryGetListFilter> criterion,
             CancellationToken cancellationToken = default)
         {
             IQueryable<Country> query = Query;
+            var totalCount = Query.Count();
 
-            var filter = criterion.Filter as CountryGetListFilter;
+            var filter = criterion.Filter;
             var pagination = criterion.Pagination;
 
             if (!string.IsNullOrWhiteSpace(filter.Search))
@@ -43,9 +44,9 @@
                     .Take(pagination.Count);
             }
 
-            //query = query.OrderBy(x => x.Name);
+            var countries = await ToAsync(query).ToListAsync(cancellationToken);
 
-            return ToAsync(query).ToListAsync(cancellationToken);
+            return new PaginatedList<Country>(totalCount, countries);
         }
     }
 }

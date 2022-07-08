@@ -20,12 +20,9 @@
 
         public Content(ContentCategory type, string name, User user, DateTime dateTimeUtc)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-
             SetName(name);
+            SetCreator(user);
             Category = type;
-            Creator = user;
             DateTimeUtc = dateTimeUtc;
         }
 
@@ -33,13 +30,19 @@
 
         public virtual string Name { get; protected set; }
 
-        public virtual User Creator { get; init; }
+        public virtual User Creator { get; protected set; }
 
         public virtual DateTime DateTimeUtc { get; init; }
 
         public virtual ContentCategory Category { get; init; }
 
         public virtual IEnumerable<ContentRating> ContentRatings => _contentRatings;
+
+        protected internal virtual void Rate(User user, int rate)
+        {
+            ContentRating rating = new ContentRating(DateTime.UtcNow, rate, user);
+            _contentRatings.Add(rating);
+        }
 
         protected internal virtual void SetName(string name)
         {
@@ -49,16 +52,12 @@
             Name = name;
         }
 
-        protected internal virtual void Rate(User user, int rate)
+        protected internal virtual void SetCreator(User user)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            if (rate < 1 || rate > 5)
-                throw new ArgumentException("Value must be between 1 and 5.", nameof(rate));
-
-            ContentRating rating = new ContentRating(DateTime.UtcNow, rate, user);
-            _contentRatings.Add(rating);
+            Creator = user;
         }
     }
 }

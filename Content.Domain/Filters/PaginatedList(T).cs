@@ -11,8 +11,8 @@
             Items = items.ToList();
         }
 
-        public int TotalCount { get; }
+        public int TotalCount { get; init; }
 
-        public List<T> Items { get; }
+        public List<T> Items { get; init; }
     }
 }

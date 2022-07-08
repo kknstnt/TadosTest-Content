@@ -8,14 +8,7 @@
     {
         public UserProfile()
         {
-            CreateMap<User, UserDto>()
-                .ForMember(
-                    dest => dest.City,
-                    opts => opts.MapFrom(src => src.City))
-                .ForPath(
-                    dest => dest.City.CountryDto,
-                    opts => opts.MapFrom(src => src.City.Country));
-
+            CreateMap<User, UserDto>();
             CreateMap<User, UserListItemDto>()
                 .ForMember(
                     dest => dest.CityFullName,

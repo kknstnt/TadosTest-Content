@@ -13,7 +13,7 @@
     using Domain.Filters;
 
     public class FindUsersByFilterAndPaginationQuery :
-        LinqAsyncQueryBase<User, FindByFilterAndPagination, List<User>>
+        LinqAsyncQueryBase<User, FindByFilterAndPagination<UserGetListFilter>, PaginatedList<User>>
     {
         public FindUsersByFilterAndPaginationQuery(
             ILinqProvider linqProvider,
@@ -21,14 +21,14 @@
         {
         }
 
-        public override Task<List<User>> AskAsync(
-            FindByFilterAndPagination criterion,
+        public override async Task<PaginatedList<User>> AskAsync(
+            FindByFilterAndPagination<UserGetListFilter> criterion,
             CancellationToken cancellationToken = default)
         {
             IQueryable<User> query = Query;
+            var totalCount = Query.Count();
 
-
-            var filter = criterion.Filter as UserGetListFilter;
+            var filter = criterion.Filter;
             var pagination = criterion.Pagination;
 
             if (!string.IsNullOrWhiteSpace(filter.Search))
@@ -44,9 +44,9 @@
                     .Take(pagination.Count);
             }
 
-            //query = query.OrderBy(x => x.Email);
+            var users = await ToAsync(query).ToListAsync(cancellationToken);
 
-            return ToAsync(query).ToListAsync(cancellationToken);
+            return new PaginatedList<User>(totalCount, users);
         }
     }
 }

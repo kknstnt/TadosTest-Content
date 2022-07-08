@@ -3,5 +3,6 @@
     using Queries.Abstractions;
     using Content.Domain.Filters;
 
-    public record FindByFilterAndPagination(Filter Filter, Pagination Pagination) : ICriterion;
+    public record FindByFilterAndPagination<TFilter>(TFilter Filter, Pagination Pagination) : ICriterion
+        where TFilter : IFilter;
 }

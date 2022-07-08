@@ -16,10 +16,7 @@
         public Video(string name, User user, DateTime dateTimeUtc, string url)
             : base(ContentCategory.Video, name, user, dateTimeUtc)
         {
-            if (string.IsNullOrWhiteSpace(url))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(url));
-
-            Url = url;
+            SetUrl(url);
         }
 
         public virtual string Url { get; protected set; }
@@ -27,8 +24,13 @@
         public virtual void Update(string name, string url)
         {
             SetName(name);
+            SetUrl(url);
+        }
+
+        protected internal virtual void SetUrl(string url)
+        {
             if (string.IsNullOrWhiteSpace(url))
-                throw new ArgumentOutOfRangeException(nameof(url));
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(url));
 
             Url = url;
         }

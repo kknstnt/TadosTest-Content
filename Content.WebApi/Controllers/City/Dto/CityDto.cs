@@ -2,13 +2,12 @@
 {
     using Country.Dto;
 
-
     public class CityDto
     {
         public long Id { get; set; }
 
         public string Name { get; set; }
 
-        public CountryDto CountryDto { get; set; }
+        public CountryDto Country { get; set; }
     }
 }

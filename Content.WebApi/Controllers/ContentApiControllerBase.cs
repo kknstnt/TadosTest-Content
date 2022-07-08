@@ -21,10 +21,7 @@
         {
         }
 
-
         public override Func<Exception, IActionResult> Fail => ProcessFail;
-
-
 
         private static IActionResult ProcessFail(Exception exception)
         {

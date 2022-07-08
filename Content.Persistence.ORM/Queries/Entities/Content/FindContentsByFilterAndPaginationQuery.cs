@@ -13,7 +13,7 @@
     using Domain.Filters;
 
     public class FindContentsByFilterAndPaginationQuery :
-        LinqAsyncQueryBase<Content, FindByFilterAndPagination, List<Content>>
+        LinqAsyncQueryBase<Content, FindByFilterAndPagination<ContentGetListFilter>, PaginatedList<Content>>
     {
         public FindContentsByFilterAndPaginationQuery(
             ILinqProvider linqProvider,
@@ -21,13 +21,14 @@
         {
         }
 
-        public override Task<List<Content>> AskAsync(
-            FindByFilterAndPagination criterion,
+        public override async Task<PaginatedList<Content>> AskAsync(
+            FindByFilterAndPagination<ContentGetListFilter> criterion,
             CancellationToken cancellationToken = default)
         {
             IQueryable<Content> query = Query;
+            var totalCount = query.Count();
 
-            var filter = criterion.Filter as ContentGetListFilter;
+            var filter = criterion.Filter;
             var pagination = criterion.Pagination;
 
             if (filter.Category.HasValue)
@@ -52,9 +53,8 @@
                     .Take(pagination.Count);
             }
 
-            //query = query.OrderBy(x => x.Name);
-
-            return ToAsync(query).ToListAsync(cancellationToken);
+            var contents = await ToAsync(query).ToListAsync(cancellationToken);
+            return new PaginatedList<Content>(totalCount, contents);
         }
     }
 }

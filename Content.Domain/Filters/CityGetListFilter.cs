@@ -1,6 +1,6 @@
 ﻿namespace Content.Domain.Filters
 {
-    public class CityGetListFilter : Filter
+    public class CityGetListFilter : IFilter
     {
         public long? CountryId { get; init; }
 

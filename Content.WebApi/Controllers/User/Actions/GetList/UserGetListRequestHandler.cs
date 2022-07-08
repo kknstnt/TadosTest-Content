@@ -25,16 +25,16 @@
 
         public async Task<UserGetListResponse> ExecuteAsync(UserGetListRequest request)
         {
-            List<User> users = await _asyncQueryBuilder
-                .For<List<User>>()
-                .WithAsync(new FindByFilterAndPagination(
+            var users = await _asyncQueryBuilder
+                .For<PaginatedList<User>>()
+                .WithAsync(new FindByFilterAndPagination<UserGetListFilter>(
                     request.Filter,
                     request.Pagination));
 
-            var usersDto = _mapper.Map<IEnumerable<UserListItemDto>>(users);
+            var usersDto = _mapper.Map<IEnumerable<UserListItemDto>>(users.Items);
 
             return new UserGetListResponse(
-                Page: new PaginatedList<UserListItemDto>(usersDto.Count(), usersDto));
+                Page: new PaginatedList<UserListItemDto>(users.TotalCount, usersDto));
         }
     }
 }

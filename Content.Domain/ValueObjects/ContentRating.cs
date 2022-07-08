@@ -16,23 +16,27 @@
 
         protected internal ContentRating(DateTime dateTimeUtc, int rate, User user)
         {
-            if (rate < 1 || rate > 5)
-                throw new ArgumentException("Value must be between 1 and 5.", nameof(rate));
-
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-
+            SetRate(rate);
+            SetUser(user);
             DateTimeUtc = dateTimeUtc;
-            Rate = rate;
-            User = user;
         }
 
         public virtual long Id { get; init; }
 
         public virtual DateTime DateTimeUtc { get; init; }
 
-        public virtual int Rate { get; init; }
+        public virtual int Rate { get; protected set; }
 
-        public virtual User User { get; init; }
+        public virtual User User { get; protected set; }
+
+        protected internal virtual void SetRate(int rate)
+        {
+            Rate = rate;
+        }
+
+        protected internal virtual void SetUser(User user)
+        {
+            User = user;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Content.Domain.Filters
 {
     using Enums;
-    public class ContentGetListFilter : Filter
+    public class ContentGetListFilter : IFilter
     {
         public ContentCategory? Category { get; init; }
 

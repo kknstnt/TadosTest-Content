@@ -1,7 +1,7 @@
 ﻿namespace Content.Domain.Filters
 {
     using Enums;
-    public class CountryGetListFilter : Filter
+    public class CountryGetListFilter : IFilter
     {
         public string Search { get; init; }
     }
