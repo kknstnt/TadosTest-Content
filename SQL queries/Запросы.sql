@@ -19,11 +19,13 @@ GROUP BY u.Email
 ORDER BY Рейтинг DESC
 
 --Получить все оценки видео всеми пользователями. Если оценки нет, то считать, что оценка – 0.
-SELECT COALESCE(cr.Rate, 0), u.Email
-FROM ContentRating AS cr
-LEFT JOIN User AS u ON cr.UserId = u.Id
-UNION ALL
-SELECT cr.Rate, u.Email
-FROM User AS u
-LEFT JOIN ContentRating AS cr ON u.Id = cr.UserId
-WHERE cr.UserId IS NULL
+SELECT c.Id AS "ContentId", u.Id AS "UserId",
+	(CASE WHEN cr.UserId = u.Id THEN
+		cr.Rate
+	ELSE 
+		0
+	END) AS "Оценка"
+FROM Content AS c
+CROSS JOIN User AS u
+LEFT JOIN ContentRating AS cr ON cr.ContentId = c.Id AND u.Id = cr.UserId
+WHERE c.Category = 2

@@ -10,11 +10,11 @@
 
     public class RatingService : IRatingService
     {
-        private readonly IAsyncQueryBuilder _asyncQueryBuilder;
+        private readonly IAsyncQueryBuilder _queryBuilder;
 
-        public RatingService(IAsyncQueryBuilder asyncQueryBuilder)
+        public RatingService(IAsyncQueryBuilder queryBuilder)
         {
-            _asyncQueryBuilder = asyncQueryBuilder ?? throw new ArgumentNullException(nameof(asyncQueryBuilder));
+            _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
         }
 
         public async Task RateAsync(Content content, User user, int rate, CancellationToken cancellationToken = default)
@@ -35,11 +35,11 @@
 
         private async Task CheckIsUserAlreadyRateTheContnetAsync(User user, Content content, CancellationToken cancellationToken = default)
         {
-            bool isAlreadeRate = await _asyncQueryBuilder
-                .For<bool>()
-                .WithAsync(new CheckIsUserAlreadyRateThisContent(user, content), cancellationToken);
+            int ratingsCount = await _queryBuilder
+                .For<int>()
+                .WithAsync(new FindRatingsCountByUserAndContent(user, content), cancellationToken);
 
-            if (isAlreadeRate)
+            if (ratingsCount != 0)
                 throw new UserAlreadyRatesThisContentException();
         }
     }

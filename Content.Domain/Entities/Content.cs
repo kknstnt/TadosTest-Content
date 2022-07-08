@@ -40,7 +40,7 @@
 
         protected internal virtual void Rate(User user, int rate)
         {
-            ContentRating rating = new ContentRating(DateTime.UtcNow, rate, user);
+            ContentRating rating = new ContentRating(DateTime.UtcNow, rate, user, this);
             _contentRatings.Add(rating);
         }
 

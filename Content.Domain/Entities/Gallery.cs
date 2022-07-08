@@ -38,7 +38,7 @@
                 AddImage(url);
         }
 
-        protected internal virtual void AddImage(string url)
+        public virtual void AddImage(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(url));

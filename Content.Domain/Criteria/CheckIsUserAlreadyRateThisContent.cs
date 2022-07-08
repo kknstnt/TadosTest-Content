@@ -3,5 +3,5 @@
     using Entities;
     using Queries.Abstractions;
 
-    public record CheckIsUserAlreadyRateThisContent(User User, Content Content) : ICriterion;
+    public record FindRatingsCountByUserAndContent(User User, Content Content) : ICriterion;
 }
